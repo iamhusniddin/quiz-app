@@ -21,7 +21,8 @@ function Test({ questions: { color, icon, questions, title } }) {
     const correctAnswer = questions[questionIndex].answer;
 
     if (selectedAnswer == null) {
-      toast.error("Please select a answer");
+      alert("Please select a answer")
+      // toast.error("Please select a answer");
     } else {
       if (selectedAnswer == correctAnswer) {
         setAnswerStatus("correct");
@@ -44,7 +45,7 @@ function Test({ questions: { color, icon, questions, title } }) {
   };
 
   if (questionIndex === questions.length) {
-    toast.success("Congratulations");
+    // toast.success("Congratulations");
 
     return (
       <Result
