@@ -71,7 +71,7 @@ function Test({ questions: { color, icon, questions, title } }) {
         <div className="test-proccess-container">
           <div
             className="test-proccess"
-            style={{ width: (answeredQuestions / questions.length) * 100 + "" }}
+            style={{ width: (answeredQuestions / questions.length) * 100 + "%" }}
           >
             {" "}
           </div>

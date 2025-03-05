@@ -18,7 +18,7 @@ function Quiz() {
     isPending,
     error,
   } = useFetch(
-    `https://json-api.uz/api/project/frontend-quizbyme/quizzes?title=${title}`
+    `/api/project/frontend-quizbyme/quizzes?title=${title}`
   );
 
   useEffect(() => {
