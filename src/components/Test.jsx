@@ -1,12 +1,11 @@
-import React, { useState } from "react";
+// toast
+import { toast } from "react-hot-toast";
 
-//components
-import Result from "./Result";
+import { useState } from "react";
 
-//toast
-import toast from "react-hot-toast";
+import Result from "../components/Result";
 
-function Test({ questions: { color, icon, questions, title } }) {
+function Test({ questions: { questions, title, color, icon } }) {
   const [answeredQuestions, setAnsweredQuestions] = useState(1);
   const [correctAnswerCount, setCorrectAnswerCount] = useState(0);
   const [questionIndex, setQuestionIndex] = useState(0);
@@ -17,22 +16,21 @@ function Test({ questions: { color, icon, questions, title } }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     const correctAnswer = questions[questionIndex].answer;
 
-    if (selectedAnswer == null) {
-      alert("Please select a answer")
-      // toast.error("Please select a answer");
+    if (selectedAnswer === null) {
+      return toast.error("Please select an answer");
     } else {
-      if (selectedAnswer == correctAnswer) {
+      if (selectedAnswer === correctAnswer) {
         setAnswerStatus("correct");
-        setCorrectAnswerCount(correctAnswer + 1);
+        setCorrectAnswerCount(correctAnswerCount + 1);
       } else {
         setAnswerStatus("incorrect");
       }
+
+      setShowNextButton(true);
+      setStatusDisabled(true);
     }
-    setShowNextButton(true);
-    setStatusDisabled(true);
   };
 
   const handleNextQuestion = () => {
@@ -45,17 +43,19 @@ function Test({ questions: { color, icon, questions, title } }) {
   };
 
   if (questionIndex === questions.length) {
-    // toast.success("Congratulations");
-
+    toast.success("Congratulations", {
+      icon: "🎉",
+    });
     return (
-      <Result
-        title={title}
-        color={color}
-        icon={icon}
-        correctAnswerCount={correctAnswerCount}
-        // questionsLenght={questions.length}
-        questions={questions}
-      />
+      <>
+        <Result
+          title={title}
+          color={color}
+          icon={icon}
+          correctAnswerCount={correctAnswerCount}
+          questionsLenght={questions.length}
+        />
+      </>
     );
   }
 
@@ -63,35 +63,32 @@ function Test({ questions: { color, icon, questions, title } }) {
     <div className="test-container">
       <div className="test-content">
         <p className="test-description">
-          question {answeredQuestions} of {questions.length}
+          Question {answeredQuestions} of {questions.length}
         </p>
         <h2 className="test-title">{questions[questionIndex].question}</h2>
 
-        {/* status bar */}
         <div className="test-proccess-container">
           <div
             className="test-proccess"
-            style={{ width: (answeredQuestions / questions.length) * 100 + "%" }}
-          >
-            {" "}
-          </div>
+            style={{
+              width: (answeredQuestions / questions.length) * 100 + "%",
+            }}
+          ></div>
         </div>
       </div>
       <div className="test-questions">
-        <form onSubmit={handleSubmit} className="">
+        <form onSubmit={handleSubmit}>
           <ul className="test-list">
             {questions[questionIndex].options.map((option, index) => {
-              const alphabet = String.fromCharCode(65 + index);
-
+              const alphabet = String.fromCharCode(index + 65);
               let className = "";
-              if (answerStatus == "correct" && option == selectedAnswer) {
+              if (answerStatus === "correct" && option === selectedAnswer) {
                 className = "correct";
-              } else if (answerStatus == "incorrect") {
-                if (option == selectedAnswer) {
+              } else if (answerStatus === "incorrect") {
+                if (option === selectedAnswer) {
                   className = "incorrect";
                 }
-
-                if (option == questions[questionIndex].answer) {
+                if (option === questions[questionIndex].answer) {
                   className = "correct";
                 }
               }
@@ -101,9 +98,9 @@ function Test({ questions: { color, icon, questions, title } }) {
                   <label className={`test-label ${className}`}>
                     <span className="test-letter">{alphabet}</span>
                     <input
+                      onChange={() => setSelectedAnswer(option)}
                       type="radio"
                       name="option"
-                      onChange={() => setSelectedAnswer(option)}
                       disabled={statusDisabeled}
                     />
                     <span className="test-text">{option}</span>
@@ -113,15 +110,15 @@ function Test({ questions: { color, icon, questions, title } }) {
                       className="test-icon-correct"
                       src="../assets/icon-correct.svg"
                       alt="icon"
-                      width={37}
-                      height={37}
+                      width={40}
+                      height={40}
                     />
                     <img
                       className="test-icon-incorrect"
                       src="../assets/icon-incorrect.svg"
                       alt="icon"
-                      width={37}
-                      height={37}
+                      width={40}
+                      height={40}
                     />
                   </label>
                 </li>
@@ -129,13 +126,13 @@ function Test({ questions: { color, icon, questions, title } }) {
             })}
           </ul>
           {!showNextButton && (
-            <button className="btn test-btn">Submit question</button>
+            <button className="btn test-btn">Submit Question</button>
           )}
           {showNextButton && (
-            <button className="btn test-btn" onClick={handleNextQuestion}>
-              {questions.length == answeredQuestions
+            <button onClick={handleNextQuestion} className="btn test-btn">
+              {questions.length == questionIndex + 1
                 ? "Finish"
-                : "Next question"}
+                : "Next Question"}
             </button>
           )}
         </form>
