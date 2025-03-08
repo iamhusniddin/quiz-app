@@ -7,6 +7,7 @@ export function useFetch(url) {
 
   useEffect(() => {
     const fetchData = async () => {
+       method: "OPTIONS"
       setIspending(true);
       try {
         const req = await fetch(url);
