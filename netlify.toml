@@ -1,5 +1,5 @@
 [[redirects]]
   from = "/api/*"
-  to = "https://json-api.uz/api/:splat"
+  to = "https://json-api.uz/:splat"
   status = 200
   force = true
