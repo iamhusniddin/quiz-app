@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 export function useFetch(url) {
   const [data, setData] = useState(null);
@@ -7,20 +7,19 @@ export function useFetch(url) {
 
   useEffect(() => {
     const fetchData = async () => {
-       method: "OPTIONS"
       setIspending(true);
       try {
         const req = await fetch(url);
-        console.log(req);
-        if (!req.ok) {
-          throw new Error(req.statusText);
-        }
-        const data = await req.json();
+        const text = await req.text(); 
+        console.log("Serverdan qaytgan ma'lumot:", text);
+
+        // JSON formatligini tekshiramiz
+        const data = JSON.parse(text);
         setData(data);
         setIspending(false);
       } catch (error) {
+        console.error("Fetch xatosi:", error);
         setError(error);
-        console.log(error);
         setIspending(false);
       }
     };

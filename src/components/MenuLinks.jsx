@@ -18,7 +18,7 @@ function MenuLinks() {
     data: quizzes,
     isPending,
     error,
-  } = useFetch("api/project/frontend-apii/quizzes");
+  } = useFetch("https://json-api.uz/api/project/shunchaki/quizzes");
 
   return (
     <div>

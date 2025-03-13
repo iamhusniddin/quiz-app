@@ -18,8 +18,13 @@ function Quiz() {
     isPending,
     error,
   } = useFetch(
-    `api/project/frontend-apii/quizzes?title=${title}`
+    `https://json-api.uz/api/project/shunchaki/quizzes?title=${title}`
   );
+
+  console.log( quizzes,
+    isPending,
+    error);
+  
 
   useEffect(() => {
     document.title = "Quiz" + " " + title;
